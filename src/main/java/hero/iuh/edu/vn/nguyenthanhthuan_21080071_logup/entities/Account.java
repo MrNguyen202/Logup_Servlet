@@ -1,13 +1,14 @@
 package hero.iuh.edu.vn.nguyenthanhthuan_21080071_logup.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Table(name = "account")
+@NamedQueries({
+        @NamedQuery(name = "Account.findByAccountId", query = "select a from Account a where a.accountId = :accountId"),
+        @NamedQuery(name = "Account.updateFullNameAndPasswordByAccountId", query = "update Account a set a.fullName = :fullName, a.password = :password where a.accountId = :accountId")
+})
 public class Account {
     @Id
     @Column(name = "account_id", nullable = false, length = 50)

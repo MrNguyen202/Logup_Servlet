@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JpaBuddyIdeaProjectConfig">
+    <option name="defaultUnitInitialized" value="true" />
     <option name="reLastEntityCreationPackage" value="src/main/java/hero/iuh/edu/vn/nguyenthanhthuan_21080071_logup/entities" />
+    <option name="renamerInitialized" value="true" />
     <option name="reverseEngineeringLastDbConnectionId" value="ea5fc7be-31c6-43ee-9219-3c88525eaf7d" />
   </component>
 </project>
