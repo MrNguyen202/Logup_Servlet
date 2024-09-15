@@ -7,7 +7,7 @@ import org.hibernate.annotations.ColumnDefault;
 @Table(name = "account")
 @NamedQueries({
         @NamedQuery(name = "Account.findByAccountId", query = "select a from Account a where a.accountId = :accountId"),
-        @NamedQuery(name = "Account.updateFullNameAndPasswordByAccountId", query = "update Account a set a.fullName = :fullName, a.password = :password where a.accountId = :accountId")
+        @NamedQuery(name = "Account.findByEmailAndPassword", query = "select a from Account a where a.email = :email and a.password = :password")
 })
 public class Account {
     @Id

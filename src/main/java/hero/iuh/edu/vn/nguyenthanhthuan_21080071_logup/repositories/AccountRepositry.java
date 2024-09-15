@@ -13,9 +13,38 @@ package hero.iuh.edu.vn.nguyenthanhthuan_21080071_logup.repositories;
  *
  */
 
+import hero.iuh.edu.vn.nguyenthanhthuan_21080071_logup.entities.Account;
+import hero.iuh.edu.vn.nguyenthanhthuan_21080071_logup.utils.AppUtil;
+import jakarta.persistence.EntityManager;
+
+import java.sql.SQLException;
+import java.util.Optional;
+
 public class AccountRepositry {
-    //Add new account
-    public boolean addAccount() {
-        return false;
+    //Login
+    public Optional<Account> login(String email, String password) throws SQLException, ClassNotFoundException {
+        EntityManager entityManager = null;
+        System.out.println(email + " --- " + password);
+
+        try {
+            entityManager = AppUtil.getEntityManagerFactory().createEntityManager();
+            entityManager.getTransaction().begin();
+            Account account = (Account) entityManager.createNamedQuery("Account.findByEmailAndPassword")
+                    .setParameter("email", email)
+                    .setParameter("password", password)
+                    .getSingleResult();
+            entityManager.getTransaction().commit();
+            System.out.println(account);
+            return Optional.of(account);
+        } catch (Exception e) {
+            if (entityManager != null) {
+                entityManager.getTransaction().rollback();
+            }
+        } finally {
+            if (entityManager != null) {
+                entityManager.close();
+            }
+        }
+        return Optional.empty();
     }
 }
