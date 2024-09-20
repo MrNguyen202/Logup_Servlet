@@ -24,7 +24,6 @@ public class AccountRepositry {
     //Login
     public Optional<Account> login(String email, String password) throws SQLException, ClassNotFoundException {
         EntityManager entityManager = null;
-        System.out.println(email + " --- " + password);
 
         try {
             entityManager = AppUtil.getEntityManagerFactory().createEntityManager();
@@ -33,8 +32,8 @@ public class AccountRepositry {
                     .setParameter("email", email)
                     .setParameter("password", password)
                     .getSingleResult();
+
             entityManager.getTransaction().commit();
-            System.out.println(account);
             return Optional.of(account);
         } catch (Exception e) {
             if (entityManager != null) {
@@ -47,4 +46,28 @@ public class AccountRepositry {
         }
         return Optional.empty();
     }
+
+    //add account
+    public boolean add(Account account){
+        EntityManager em = null;
+        try{
+            em = AppUtil.getEntityManagerFactory().createEntityManager();
+            em.getTransaction().begin();
+            em.persist(account);
+            em.getTransaction().commit();
+            return true;
+        } catch (Exception e){
+            if (em != null){
+                em.getTransaction().rollback();
+            }
+        } finally {
+            if (em != null){
+                em.close();
+            }
+        }
+        return false;
+    }
+
+
+
 }

@@ -17,7 +17,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
 public class AppUtil {
-    private static final String name_Persistence_Unit = "";
+    private static final String name_Persistence_Unit = "my-app";
     private static EntityManagerFactory factory;
 
     public static EntityManagerFactory getEntityManagerFactory() {

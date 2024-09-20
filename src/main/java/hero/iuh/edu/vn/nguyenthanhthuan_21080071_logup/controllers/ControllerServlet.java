@@ -14,7 +14,9 @@ package hero.iuh.edu.vn.nguyenthanhthuan_21080071_logup.controllers;
  */
 
 import hero.iuh.edu.vn.nguyenthanhthuan_21080071_logup.entities.Account;
+import hero.iuh.edu.vn.nguyenthanhthuan_21080071_logup.entities.Role;
 import hero.iuh.edu.vn.nguyenthanhthuan_21080071_logup.repositories.AccountRepositry;
+import hero.iuh.edu.vn.nguyenthanhthuan_21080071_logup.repositories.GrantAccessRepository;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -24,11 +26,13 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet(name = "ControllerServlet", urlPatterns = "/controller")
 public class ControllerServlet extends HttpServlet {
 
     AccountRepositry accountRepositry = new AccountRepositry();
+    GrantAccessRepository grantAccessRepository = new GrantAccessRepository();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -58,7 +62,10 @@ public class ControllerServlet extends HttpServlet {
         String password = req.getParameter("password");
 
         Account account = accountRepositry.login(email, password).orElse(null);
-        if(account == null){
+        String roles = grantAccessRepository.findRoleIdByAccountId(account.getAccountId());
+        if(account != null){
+            session.setAttribute("account", account);
+            session.setAttribute("GrantAccessOfAccount", roles);
             req.getServletContext().getRequestDispatcher("/views/dashboard.jsp").forward(req, resp);
         }else {
             resp.sendRedirect("index.jsp");
